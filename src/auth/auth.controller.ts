@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { User } from './../user/models/user.entity';
 import { RegisterDto } from './models/register.dto';
@@ -13,7 +14,8 @@ export class AuthController {
 
     constructor(
         private userService: UserService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private authService: AuthService
         ) {
 
     }
@@ -60,11 +62,10 @@ export class AuthController {
     @UseGuards(AuthGuard)
     @Get('user')
     async user(@Req() request: Request){
-        const cookie = request.cookies['jwt'];
+        
+        const id = await this.authService.userId(request);
 
-        const data = await this.jwtService.verifyAsync(cookie);
-
-        return this.userService.findOne({id: data['id']});
+        return this.userService.findOne({id});
     }
     
     @UseGuards(AuthGuard)
