@@ -10,10 +10,12 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe());
     app.use(cookieParser());
     app.enableCors({
-        origin: 'http://localhost:3000',
-        credentials: true
+        allowedHeaders: 'Content-Type, Accept, Authorization',
+        origin: 'http://127.0.0.1:3000',
+        credentials: true,
+        methods: 'POST,GET,DELETE,PATCH,OPTIONS,PUT',
     });
-    await app.listen(3000);
+    await app.listen(3300);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
